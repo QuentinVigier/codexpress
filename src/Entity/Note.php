@@ -7,9 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\String\Slugger\SluggerInterface;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ORM\Entity(repositoryClass: NoteRepository::class)]
+#[HasLifecycleCallbacks]
 class Note
 {
     #[ORM\Id]
@@ -52,12 +53,11 @@ class Note
     #[ORM\JoinColumn(nullable: false)]
     private ?User $creator = null;
 
-    public function __construct(private SluggerInterface $slugger)
+    public function __construct()
     {
         $this->notifications = new ArrayCollection(); //initialisation du tableau de notifications
         $this->is_public = false; //initialisation de la propriété is_public à false (privé par défaut)
         $this->title = uniqid('note-'); //initialisation du titre au GUID
-        $this ->slug = $slugger->slug($this->getTitle()); //initialisation du slug à partir du titre
     }
 
     #[ORM\PrePersist]
