@@ -1,10 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}HomePage{% endblock %}
+{% block title %}HomePage
+{% endblock %}
 
 {% block body %}
-    <h1>Last Notes</h1>
-    {{ dump(lastNotes) }}
+	<header>
+		<h1>Welcome to CodeXpress</h1>
+		<p>CodeXpress is a platform where you can share your code snippets with the community.</p>
+	</header>
+	<div class="">
+		<h3>Last notes</h3>
+		<p>Here are the last notes shared by the community</p>
+		<div class="">
+			{% for item in lastNotes %}
+				<div class="">
+					{{ item.title }}
+					{{ item.category.title}}
+                    <a href="{{ path('app_note_show', {'slug': item.slug}) }}">Check it</a>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
 
 
 {% endblock %}
