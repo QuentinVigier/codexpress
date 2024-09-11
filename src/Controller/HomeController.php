@@ -2,40 +2,22 @@
 
 namespace App\Controller;
 
+use App\Repository\NoteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'home')]
-    public function index(): Response
+    #[Route('/', name: 'app_home', methods: ['GET'])]
+    public function index(NoteRepository $nr): Response
     {
+        $lastNotes = $nr->findBy(
+            ['is_public' => true],   // Filtre les notes publiques
+            ['created_at' => 'DESC'], 6);  // Trie par date de création et limite à 6 
+
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
-    }
-
-    #[Route('/profile', name: 'profile')]
-    public function profile(): Response
-    {
-        return $this->render('home/profile.html.twig', [
-        ]);
-    }
-
-
-
-    #[Route('/notifications', name: 'notifications')]
-    public function notifications(): Response
-    {
-        return $this->render('home/notifications.html.twig', [
-        ]);
-    }
-
-    #[Route('/categories', name: 'categories')]
-    public function categories(): Response
-    {
-        return $this->render('home/categories.html.twig', [
+            'lastNotes' => $lastNotes,  // Envoie des notes à la vue Twig qui sont désormais utilisables sous le nom 'lastNotes'
         ]);
     }
 }

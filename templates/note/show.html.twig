@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}My-NotesPage{% endblock %}
+{% block title %}{{ note.title }}{% endblock %}
 
 {% block body %}
-
+<h1>{{ note.title }}</h1>
+{{ dump(note) }}
+<a href="{{ path('app_note_all') }}">Back to list</a>
 {% endblock %}

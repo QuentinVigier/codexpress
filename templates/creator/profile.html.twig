@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+    <h1>User Profile</h1>
+    {{ dump(app.user) }}  
+    {# Super Variable de SYmphony pour récupérer les infos de l'utilisateur en cours #}
+
+{% endblock %}
