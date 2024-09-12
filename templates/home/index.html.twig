@@ -4,22 +4,44 @@
 {% endblock %}
 
 {% block body %}
-	<header>
-		<h1>Welcome to CodeXpress</h1>
-		<p>CodeXpress is a platform where you can share your code snippets with the community.</p>
+	<header class="p-4 bg-gradient-to-r from-purple-100 to-blue-100">
+		<h1 class="mt-10 mb-2 text-4xl font-bold text-purple-600 mx-36">Stop wasting time on Google Search</h1>
+		<p class="mb-10 mx-36 text-purple-950">CodeXpress is a platform where you can share your code snippets, scripts and creative ideas about programming, design, and anything else you want to share with the community.
+								Feel free to ask anything to anyone this platform is made to encourage exchanges between programmers and designers.</p>
 	</header>
-	<div class="">
-		<h3>Last notes</h3>
-		<p>Here are the last notes shared by the community</p>
-		<div class="">
+	<div class="p-4">
+		<div class="flex flex-row mt-10">
+			{{ ux_icon('mdi:calendar', { 'class': 'h-6 w-6 ml-36 text-purple-950 mt-1'}) }}
+			<h3 class="ml-2 text-xl font-bold text-purple-950">Recent notes</h3>
+		</div>
+		<p class="my-2 mx-36 text-purple-950">There are currenty
+			{{ lastNotes|length }}
+			notes in the database</p>
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 mx-36">
 			{% for item in lastNotes %}
-				<div class="">
-					{{ item.title }}
-					{{ item.category.title}}
-                    <a href="{{ path('app_note_show', {'slug': item.slug}) }}">Check it</a>
+				<div class="p-4 mb-4 bg-white rounded-lg shadow-md">
+					<h2 class="mb-2 text-lg font-bold text-purple-600">{{ item.title }}</h2>
+					<p class="mb-4 text-gray-600">{{ item.content }}</p>
+					<div class="flex items-center justify-between">
+						<a>{{ item.views }}
+							views.</a>
+						<a href="{{ path('app_note_show', {'slug': item.slug}) }}" class="px-3 py-1 text-sm font-semibold text-purple-600 bg-purple-100 rounded-md">Check it</a>
+					</div>
 				</div>
 			{% endfor %}
 		</div>
+		<div class="p-8 text-white rounded-lg shadow-md bg-gradient-to-r from-gray-700 to-gray-900 mx-36">
+			<h1 class="mb-4 text-3xl font-bold">
+				Learn building webapp with Symfony
+			</h1>
+			<p class="mb-6 text-lg">
+				Access a full online course to learn how to build applications with Symfony, the most popular PHP framework. You will learn how to build applications that improve the lives of people around the world.
+			</p>
+			<a href="#" class="px-4 py-2 font-semibold text-purple-600 transition bg-purple-100 rounded-md hover:bg-purple-200">
+				Start learning
+			</a>
+		</div>
+
 	</div>
 
 
