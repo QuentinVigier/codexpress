@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Network;
 use App\Entity\Note;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -70,7 +71,8 @@ class AppFixtures extends Fixture
                 ->setRoles(['ROLE_USER'])
             ;
             $manager->persist($user);
-
+            
+            // Ajout de 10 notes par utilisateur
             for ($j = 0; $j < 10; $j++) {
                 $note = new Note();
                 $note
@@ -84,6 +86,21 @@ class AppFixtures extends Fixture
                     ;
                     $manager->persist($note);
             }
+        }
+
+        // Récupérer les utilisateurs depuis les fixtures précédentes
+        $users = $manager->getRepository(User::class)->findAll();
+        
+        // Génération de 20 réseaux sociaux fictifs
+        for ($i = 0; $i < 20; $i++) {
+            $network = new Network();
+            $network
+                ->setName($faker->company)  // Utilisation de "company" pour simuler un nom de réseau social
+                ->setUrl($faker->url)  // Générer une URL
+                ->setCreator($faker->randomElement($users))  // Assigner un utilisateur aléatoire comme créateur
+            ;
+
+            $manager->persist($network);
         }
         
         $manager->flush();
