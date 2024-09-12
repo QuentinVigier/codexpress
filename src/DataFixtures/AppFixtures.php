@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Like;
 use App\Entity\Network;
 use App\Entity\Note;
 use App\Entity\User;
@@ -24,6 +25,7 @@ class AppFixtures extends Fixture
         $this->slug = $slugger;
         $this->hash = $hasher;
     }
+
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
@@ -46,6 +48,8 @@ class AppFixtures extends Fixture
         ];
 
         $categoriesArray = [];  // Ce tableau nous servira pour conserver les objets Category
+        $usersArray = [];  // Nouveau tableau pour stocker les utilisateurs créés
+        $notesArray = [];  // Tableau pour stocker les notes créées
 
         foreach ($categories as $title => $icon) {
             $category = new Category();
@@ -57,7 +61,7 @@ class AppFixtures extends Fixture
             $manager->persist($category);
         }
 
-        //10 utilisateurs
+        // 10 utilisateurs
         for ($i = 0; $i < 10; $i++) {
             $username = $faker->userName;  // Génère un nom d'utilisateur
             $usernameFinal = $this->slug->slug($username);  // UserName en slug
@@ -71,7 +75,9 @@ class AppFixtures extends Fixture
                 ->setRoles(['ROLE_USER'])
             ;
             $manager->persist($user);
-            
+
+            $usersArray[] = $user;  // Stocker chaque utilisateur dans le tableau
+
             // Ajout de 10 notes par utilisateur
             for ($j = 0; $j < 10; $j++) {
                 $note = new Note();
@@ -80,29 +86,38 @@ class AppFixtures extends Fixture
                     ->setSlug($this->slug->slug($note->getTitle()))
                     ->setContent($faker->paragraphs(4, true))
                     ->setPublic($faker->boolean(50))
-                    ->setViews($faker->numberBetween(100,10000))
+                    ->setViews($faker->numberBetween(100, 10000))
                     ->setCreator($user)
                     ->setCategory($faker->randomElement($categoriesArray))
-                    ;
-                    $manager->persist($note);
+                ;
+                $manager->persist($note);
+
+                $notesArray[] = $note;  // Stocker chaque note dans le tableau pour réutiliser dans les likes
+            }
+
+            // Ajout de 5 likes par utilisateur, en likant des notes au hasard
+            for ($k = 0; $k < 5; $k++) {
+                $like = new Like();
+                $like
+                    ->setCreator($user)
+                    ->setNote($faker->randomElement($notesArray))  // On prend une note au hasard
+                ;
+                $manager->persist($like);
             }
         }
 
-        // Récupérer les utilisateurs depuis les fixtures précédentes
-        $users = $manager->getRepository(User::class)->findAll();
-        
         // Génération de 20 réseaux sociaux fictifs
-        for ($i = 0; $i < 20; $i++) {
+        for ($l = 0; $l < 20; $l++) {
             $network = new Network();
             $network
                 ->setName($faker->company)  // Utilisation de "company" pour simuler un nom de réseau social
                 ->setUrl($faker->url)  // Générer une URL
-                ->setCreator($faker->randomElement($users))  // Assigner un utilisateur aléatoire comme créateur
+                ->setCreator($faker->randomElement($usersArray))  // Assigner un utilisateur aléatoire comme créateur
             ;
 
             $manager->persist($network);
         }
-        
+
         $manager->flush();
     }
 }
