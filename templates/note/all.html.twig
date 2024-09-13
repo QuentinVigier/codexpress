@@ -3,9 +3,15 @@
 {% block title %}All public notes{% endblock %}
 
 {% block body %}
-<h1>All public notes</h1>
-{% for item in allNotes %}
-{{ dump(item) }}
-<a href="{{path('app_note_show', {'slug': item.slug})}}">Show</a>
-{% endfor %}
+    <div class="py-10">
+    
+    {% set lastMonth = date('2024-07-07')  %}
+    
+        {{ dump(lastMonth) }}
+        {{ dump(lastMonth|time_diff) }}
+
+
+    Published {{ lastMonth|time_diff }} ago.
+    
+    </div>
 {% endblock %}

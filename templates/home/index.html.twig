@@ -5,23 +5,25 @@
 
 {% block body %}
 	<header class="p-4 bg-gradient-to-r from-purple-100 to-blue-100">
-		<h1 class="mt-10 mb-2 text-4xl font-bold text-purple-600 mx-36">Stop wasting time on Google Search</h1>
-		<p class="mb-10 mx-36 text-purple-950">CodeXpress is a platform where you can share your code snippets, scripts and creative ideas about programming, design, and anything else you want to share with the community.
+	<div class="px-4 mx-auto sm:max-w-screen-sm md:max-w-screen-lg md:px-16">
+		<h1 class="mt-10 mb-2 text-4xl font-bold text-purple-600">Stop wasting time on Google Search</h1>
+		<p class="mb-10 text-purple-950">CodeXpress is a platform where you can share your code snippets, scripts and creative ideas about programming, design, and anything else you want to share with the community.
 								Feel free to ask anything to anyone this platform is made to encourage exchanges between programmers and designers.</p>
+	</div>
 	</header>
-	<div class="p-4">
+	<main class="px-4 py-5 mx-auto sm:max-w-screen-sm md:px-16 md:max-w-screen-lg">
 		<div class="flex flex-row mt-10">
-			{{ ux_icon('mdi:calendar', { 'class': 'h-6 w-6 ml-36 text-purple-950 mt-1'}) }}
+			{{ ux_icon('mdi:calendar', { 'class': 'h-6 w-6 text-purple-950 mt-1'}) }}
 			<h3 class="ml-2 text-xl font-bold text-purple-950">Recent notes</h3>
 		</div>
-		<p class="my-2 mx-36 text-purple-950">There are currenty
-			{{ lastNotes|length }}
-			notes in the database</p>
-		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 mx-36">
+		<h3 class="mx-3 text-purple-950">There are currenty
+			{{ totalNotes }}
+			notes in the database</h3>
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 			{% for item in lastNotes %}
 				<div class="p-4 mb-4 bg-white rounded-lg shadow-md">
-					<h2 class="mb-2 text-lg font-bold text-purple-600">{{ item.title }}</h2>
-					<p class="mb-4 text-gray-600">{{ item.content }}</p>
+					<h5 class="mb-2 text-lg font-bold text-purple-600">{{ item.title|slice(0, 40) }}...</h5>
+					<p class="mb-4 text-gray-600">{{ item.content|slice(0, 100) }}...</p>
 					<div class="flex items-center justify-between">
 						<a>{{ item.views }}
 							views.</a>
@@ -30,19 +32,9 @@
 				</div>
 			{% endfor %}
 		</div>
-		<div class="p-8 my-10 text-white rounded-lg shadow-md bg-gradient-to-r from-gray-700 to-gray-900 mx-36">
-			<h1 class="mb-4 text-3xl font-bold">
-				Learn building webapp with Symfony
-			</h1>
-			<p class="mb-6 text-lg">
-				Access a full online course to learn how to build applications with Symfony, the most popular PHP framework. You will learn how to build applications that improve the lives of people around the world.
-			</p>
-			<a href="#" class="px-4 py-2 font-semibold text-purple-600 transition bg-purple-100 rounded-md hover:bg-purple-200">
-				Start learning
-			</a>
-		</div>
+		{{ include('components/cta.html.twig') }}
 
-	</div>
+	</main>
 
 
 {% endblock %}

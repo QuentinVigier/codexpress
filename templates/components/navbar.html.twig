@@ -10,9 +10,10 @@
 			<button type="submit">{{ ux_icon('mdi:search',  { 'class': 'h-6 w-6'}) }}</button>
 		</form>
 		<div class="flex items-center justify-between gap-4">
+			<a href="#" class="p-2 border-2 rounded-md border-neutral-700 md:hidden">{{ ux_icon('mdi:search', { 'class': 'h-6 w-6'}) }}</a>
 			<a href="{{path('app_note_new')}}" class="p-2 border-2 rounded-md border-neutral-700">{{ ux_icon('mdi:plus-box-outline', { 'class': 'h-6 w-6'}) }}</a>
 			<a href="{{path('app_profile_edit')}}" class="p-2 border-2 rounded-md border-neutral-700">{{ ux_icon('mdi:cog-outline', { 'class': 'h-6 w-6'}) }}</a>
-			<a href="{{path('app_note_user', {'username': app.user.username ?? 'martin'})}}" class="p-2 rounded-full">
+			<a href="{{path('app_note_user', {'username': app.user.username ?? 'martin'})}}" class="p-2 transition-transform duration-200 ease-in-out rounded-full hover:scale-95">
 				<img src="https://avatar.iran.liara.run/public" alt="Avatar" width="32" class="">
 			</a>
 		</div>
